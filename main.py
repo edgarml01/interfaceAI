@@ -35,11 +35,11 @@ oraciones = {
 }
 oraciones_texto = list(oraciones.keys())
 
-uinput = input("Escribe la orden: ")
+userInput = input("Escribe la orden: ")
 
 # Convertir frases en vectores numéricos
 embeddings = model.encode(oraciones_texto)
-uEmbeddings = model.encode(uinput)
+uEmbeddings = model.encode(userInput)
 
 # Calcular similitudes coseno entre uEmbeddings y cada oración en embeddings
 cosine_similarities = [
@@ -56,7 +56,7 @@ for i, sim in enumerate(cosine_similarities):
     print(f"Similitud Coseno con semantica entre la entrada del usuario y '{oraciones_texto[i]}': {sim}")
 
 print(f"La oración con mayor similitud semántica es: '{most_similar_sentence}'")
-print(f"La oración de input: '{uinput}'")
+print(f"La oración de input: '{userInput}'")
 
 oraciones[most_similar_sentence]()
 
