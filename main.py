@@ -1,16 +1,9 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
 from AIService import AIService
+from OrderManager import exect_order
+import tkinter as tk
+import threading
+import time
 
-def calculate_cosine_similarity(sentence1, sentence2):
-    # Convertir a vectores TF-IDF
-    vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform([sentence1, sentence2])
-
-    # Calcular similitud coseno
-    cosine_sim = cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])
-    return cosine_sim[0][0]
 
 def test1():
     print("Ejecutando orden 1")
@@ -19,16 +12,6 @@ def test2():
 def test3():
     print("Ejecutando orden 3")
 
-
-# Oraciones a comparar
-sentence1 = "Presiona el boton continuar"
-sentence2 = "Presiona el boton para avazar"
-
-similitud = calculate_cosine_similarity(sentence1, sentence2)
-print("Similitud Coseno sin similitud semantica:", similitud)
-
-model = SentenceTransformer("all-MiniLM-L6-v2")  # Modelo 
-
 # Frases a comparar
 oraciones = {
     "Presiona el botón continuar":test1,
@@ -36,37 +19,33 @@ oraciones = {
     "Cierra el programa":test3
 }
 
+def tarea_en_bucle():
+    while True:
+        exect_order(oraciones)
+        time.sleep(1)
 
-oraciones_texto = list(oraciones.keys())
+def iniciar_hilo():
+    hilo = threading.Thread(target=tarea_en_bucle, daemon=True)
+    hilo.start()
 
-aiService = AIService()
-response_list = aiService.ask_gemini_list("Crea una lista de 3 ordenes que sean similares a la siguiente palabra: " + oraciones_texto[0])
-print(response_list[0])
+# Crear la ventana principal
+ventana = tk.Tk()
+ventana.title("Mi interfaz simple")
+ventana.geometry("300x150")
 
-userInput = input("Escribe la orden: ")
+# Crear botones
+boton1 = tk.Button(ventana, text="Botón 1", command=test1)
+boton1.pack(pady=10)
 
-# Convertir frases en vectores numéricos
-embeddings = model.encode(oraciones_texto)
-uEmbeddings = model.encode(userInput)
+boton2 = tk.Button(ventana, text="Botón 2", command=test2)
+boton2.pack(pady=10)
 
-# Calcular similitudes coseno entre uEmbeddings y cada oración en embeddings
-cosine_similarities = [
-    cosine_similarity([uEmbeddings], [embeddings[i]])[0][0]
-    for i in range(len(oraciones_texto))
-]
+# Ejecutar la app
+iniciar_hilo()
 
-# Encontrar la oración con mayor similitud semántica
-max_similarity_index = cosine_similarities.index(max(cosine_similarities))
-most_similar_sentence = oraciones_texto[max_similarity_index]
+ventana.mainloop()
 
-# Imprimir resultados
-for i, sim in enumerate(cosine_similarities):
-    print(f"Similitud Coseno con semantica entre la entrada del usuario y '{oraciones_texto[i]}': {sim}")
 
-print(f"La oración con mayor similitud semántica es: '{most_similar_sentence}'")
-print(f"La oración de input: '{userInput}'")
-
-oraciones[most_similar_sentence]()
 
 
 
