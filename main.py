@@ -19,11 +19,6 @@ def test2():
 def test3():
     print("Ejecutando orden 3")
 
-aiService = AIService()
-
-response = aiService.ask_gemini("Hola gemini")
-
-print(response)
 
 # Oraciones a comparar
 sentence1 = "Presiona el boton continuar"
@@ -40,7 +35,13 @@ oraciones = {
     "Presiona el botón para retroceder":test2,
     "Cierra el programa":test3
 }
+
+
 oraciones_texto = list(oraciones.keys())
+
+aiService = AIService()
+response_list = aiService.ask_gemini_list("Crea una lista de 3 ordenes que sean similares a la siguiente palabra: " + oraciones_texto[0])
+print(response_list[0])
 
 userInput = input("Escribe la orden: ")
 
