@@ -1,6 +1,7 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
+from AIService import AIService
 
 def calculate_cosine_similarity(sentence1, sentence2):
     # Convertir a vectores TF-IDF
@@ -17,6 +18,12 @@ def test2():
     print("Ejecutando orden 2")
 def test3():
     print("Ejecutando orden 3")
+
+aiService = AIService()
+
+response = aiService.ask_gemini("Hola gemini")
+
+print(response)
 
 # Oraciones a comparar
 sentence1 = "Presiona el boton continuar"
