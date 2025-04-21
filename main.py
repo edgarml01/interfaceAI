@@ -7,16 +7,14 @@ import time
 
 def test1():
     print("Ejecutando orden 1")
+
 def test2():
     print("Ejecutando orden 2")
-def test3():
-    print("Ejecutando orden 3")
 
 # Frases a comparar
 oraciones = {
     "Presiona el botón continuar":test1,
-    "Presiona el botón para retroceder":test2,
-    "Cierra el programa":test3
+    "Cierra el programa":test2
 }
 
 def tarea_en_bucle():
@@ -28,20 +26,25 @@ def iniciar_hilo():
     hilo = threading.Thread(target=tarea_en_bucle, daemon=True)
     hilo.start()
 
+def shortcut (event = None):
+    print("Ejecutando shortcut")
+    exect_order(oraciones)
+
 # Crear la ventana principal
 ventana = tk.Tk()
 ventana.title("Mi interfaz simple")
-ventana.geometry("300x150")
+ventana.geometry("500x450")
+
 
 # Crear botones
-boton1 = tk.Button(ventana, text="Botón 1", command=test1)
+boton1 = tk.Button(ventana, text="Continuar", command=test1)
 boton1.pack(pady=10)
 
-boton2 = tk.Button(ventana, text="Botón 2", command=test2)
+boton2 = tk.Button(ventana, text="Cerrar programa", command=test2)
 boton2.pack(pady=10)
 
 # Ejecutar la app
-iniciar_hilo()
+ventana.bind('<Control-o>', shortcut)
 
 ventana.mainloop()
 

@@ -29,7 +29,7 @@ class AIService:
 
     def ask_gemini_json(self, prompt):
         """
-        Ask the Gemini AI model a question and return the response.
+        Ask the Gemini AI model a question and return the response with a json string .
         """
         try:
             response = self.client.models.generate_content(
@@ -48,7 +48,7 @@ class AIService:
 
     def ask_gemini_list(self, prompt):
         """
-        Ask the Gemini AI model a question and return the response.
+        Ask the Gemini AI model a question and return the response in a list .
         """
         try:
             response = self.client.models.generate_content(

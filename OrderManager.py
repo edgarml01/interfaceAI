@@ -1,5 +1,6 @@
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
+from SpeechToText import voice_to_text
 
 MODEL = "all-MiniLM-L6-v2"
 
@@ -15,7 +16,7 @@ def exect_order( sentences ) :
 
     oraciones_texto = list(oraciones.keys())
 
-    userInput = input("Escribe la orden: ")
+    userInput = voice_to_text()
 
     # Convertir frases en vectores numéricos
     embeddings = model.encode(oraciones_texto)
