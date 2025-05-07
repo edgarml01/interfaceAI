@@ -3,7 +3,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from SpeechToText import voice_to_text
 from AIService import AIService
 
-MODEL = "all-MiniLM-L6-v2"
+#MODEL = "all-MiniLM-L6-v2"
+MODEL = "sentence-transformers/all-mpnet-base-v2"
 
 def avg_cosine_similarity(userInput, sentences):
     model = SentenceTransformer(MODEL)  # Modelo 
@@ -34,7 +35,7 @@ def exect_order( sentences ) :
     averages = []
 
     for oracion in oraciones_texto:
-        prompt = f"Dame un lista con  10 ordenes similares a la siguiente {oracion}. Las ordenes tienen que tener una similitud semantica alta con la orden original. Las ordenes tienen que ser diferentes entre si y no pueden ser iguales a la orden original. "
+        prompt = f"Dame un lista con  5 ordenes similares a la siguiente {oracion}. Las ordenes tienen que tener una similitud semantica alta con la orden original. Las ordenes tienen que ser diferentes entre si y no pueden ser iguales a la orden original. "
         list_of_sentences = aiService.ask_gemini_list(prompt)
         print(list_of_sentences)
         avg  = avg_cosine_similarity(userInput, list_of_sentences)
